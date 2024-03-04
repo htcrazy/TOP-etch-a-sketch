@@ -66,7 +66,7 @@
             function changeGrid() {
                 do {
                     let size = prompt("How many rows do you want for the square grid? (Max:100)")
-                    if (size <= 100) {
+                    if (size <= 100 && size >= 0) {
                         makeGrid(size);
                         break;
                     }
