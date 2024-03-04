@@ -5,6 +5,86 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <script type="text/javascript"></script>
+        <div class="rowContainer margin">
+            <button onclick="changeGrid()">Change Grid Size</button>
+        </div>
+        
+        <div id="grid"></div>
+        <script>
+            function changeColor(e) {
+                if (e.target.style.backgroundColor == 'white') {
+                    e.target.style.backgroundColor = 'rgb(' + randColor() + ',' + randColor() + ',' + randColor() + ')';
+                } else {
+                    darken(e);
+                }
+            }
+
+            function darken(e) {
+                const rgb = e.target.style.backgroundColor.slice(4,-1).split(',') // rgb(123,123,123)
+                let red = Math.floor(rgb[0] / 1.75);
+                let green = Math.floor(rgb[1] / 1.75);
+                let blue = Math.floor(rgb[2] / 1.75);
+
+                e.target.style.backgroundColor = 'rgb(' + red + ',' + green + ',' + blue + ')';
+            }
+
+            function randColor() {
+                return Math.floor(255 * Math.random());
+            }
+
+            function makeGrid(num) {
+                const gridKill = document.querySelector('#grid');
+                gridKill.remove();
+
+                let pixels = 960/num;
+
+                const grid = document.createElement('div');
+                grid.setAttribute('id','grid');
+
+                for (let i = 0; i < num; i++) {
+                    let rowContainer = document.createElement('div');
+                    rowContainer.setAttribute('class','rowContainer');
+
+                    for (let i = 0; i < num; i++) {
+                        let block = document.createElement('div');
+                        block.style.backgroundColor = 'white';
+                        block.style.width = pixels + 'px';
+                        block.style.height = pixels + 'px';
+                        block.addEventListener('mouseover',changeColor);
+                        rowContainer.appendChild(block);
+                    }
+
+                    grid.appendChild(rowContainer);
+                }
+
+                const theBody = document.querySelector('body');
+                theBody.appendChild(grid);
+            }
+
+            makeGrid(16);
+
+            function changeGrid() {
+                do {
+                    let size = prompt("How many rows do you want for the square grid? (Max:100)")
+                    if (size <= 100) {
+                        makeGrid(size);
+                        break;
+                    }
+                }
+                while (true);
+            }
+        </script>
     </body>
 </html>
+
+<!--
+.block {
+    width: 30px;
+    height: 30px;
+    background-color: white;
+}
+
+.block:hover {
+    background-color: gray;
+}
+-->
